@@ -1,9 +1,9 @@
 package config
 
-import indigo.{AssetName, GameConfig}
+import indigo.GameConfig
 
 object MyGameConfig {
-  val assetName = AssetName("dots")
+
   val magnification = 3
 
   val config: GameConfig =
