@@ -1,5 +1,9 @@
+ThisBuild / scalaVersion := "2.13.3"
+
+name := "mygame.indigo_demo"
+
 lazy val mygame =
-  (project in file("."))
+  project.in(file("."))
     .enablePlugins(ScalaJSPlugin, SbtIndigo)
     .settings( // Normal SBT settings
       name := "mygame",
@@ -8,7 +12,8 @@ lazy val mygame =
       organization := "mygame",
       libraryDependencies ++= Seq(
         "com.lihaoyi"    %%% "utest"      % "0.7.4"  % "test",
-        "org.scalacheck" %%% "scalacheck" % "1.14.3" % "test"
+        "org.scalacheck" %%% "scalacheck" % "1.14.3" % "test",
+        "org.akka-js" %%% "akkajsactor" % "2.2.6.5"
       ),
       testFrameworks += new TestFramework("utest.runner.Framework")
     )
