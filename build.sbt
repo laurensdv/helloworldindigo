@@ -31,4 +31,6 @@ lazy val mygame =
     )
 
 addCommandAlias("buildGame", ";compile;fastOptJS;indigoBuild")
+addCommandAlias("buildFullOptGame", ";compile;fullOptJS;indigoBuild")
 addCommandAlias("runGame", ";compile;fastOptJS;indigoRun")
+addCommandAlias("runFullOptGame", ";compile;fullOptJS;indigoRun")

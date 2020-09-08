@@ -1,7 +1,8 @@
 import config.{MyAssets, MyGameConfig}
-import indigo.scenes.{Scene, SceneName}
+import scenes.IntroScene
 import scenes.MainScene
 import indigo._
+import indigo.scenes.{Scene, SceneName}
 import model.{MainSceneModel, MyGameModel, MyGameViewModel}
 
 import scala.scalajs.js.annotation.JSExportTopLevel
@@ -15,10 +16,11 @@ object MyGame extends IndigoGame[Unit, Unit, MyGameModel, MyGameViewModel] {
   override def boot(flags: Map[String, String]): BootResult[Unit] = BootResult
     .configOnly(MyGameConfig.config)
     .withAssets(MyAssets.assets)
+    .withFonts(MyAssets.fontInfo)
 
-  override def scenes(bootData: Unit): NonEmptyList[Scene[Unit, MyGameModel, MyGameViewModel]] = NonEmptyList(MainScene)
+  override def scenes(bootData: Unit): NonEmptyList[Scene[Unit, MyGameModel, MyGameViewModel]] = NonEmptyList(IntroScene, MainScene)
 
-  override def initialScene(bootData: Unit): Option[SceneName] = Option(MainScene.name)
+  override def initialScene(bootData: Unit): Option[SceneName] = Option(IntroScene.name)
 
   override def setup(bootData: Unit, assetCollection: AssetCollection, dice: Dice): Startup[StartupErrors, Unit] =
     Startup.Success(())

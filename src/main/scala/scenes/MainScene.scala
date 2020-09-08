@@ -7,7 +7,8 @@ import indigo.shared.FrameContext
 import indigo.shared.events.{EventFilters, GlobalEvent, MouseEvent}
 import indigo.shared.scenegraph.SceneUpdateFragment
 import indigo.shared.subsystems.SubSystem
-import model.{Dot, MainSceneModel, MyGameModel, MyGameViewModel}
+import model.main.Dot
+import model.{MainSceneModel, MyGameModel, MyGameViewModel}
 
 object MainScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
   override type SceneModel = MainSceneModel

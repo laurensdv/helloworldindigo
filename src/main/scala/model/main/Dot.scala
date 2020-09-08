@@ -1,4 +1,4 @@
-package model
+package model.main
 
 import indigo.{Radians, Seconds}
 
