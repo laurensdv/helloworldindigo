@@ -8,6 +8,9 @@ sbt
 .history
 .lib
 dist
+node_modules
+platforms
+package-lock.json
 target
 lib_managed
 src_managed

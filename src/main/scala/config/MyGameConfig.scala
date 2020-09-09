@@ -4,10 +4,13 @@ import indigo.GameConfig
 
 object MyGameConfig {
 
-  val magnification = 3
+  val magnification = 2
 
-  val introTimeSeconds = 20
+  val introTimeSeconds = 6
 
   val config: GameConfig =
-    GameConfig.default.withMagnification(magnification)
+    GameConfig.default
+      .withViewport(412, 896)
+      .withMagnification(magnification)
+
 }

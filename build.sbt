@@ -13,7 +13,7 @@ lazy val mygame =
       libraryDependencies ++= Seq(
         "com.lihaoyi"    %%% "utest"      % "0.7.4"  % "test",
         "org.scalacheck" %%% "scalacheck" % "1.14.3" % "test",
-        "org.akka-js" %%% "akkajsactor" % "2.2.6.5"
+        "org.akka-js" %%% "akkajsactor" % "2.2.6.5",
       ),
       testFrameworks += new TestFramework("utest.runner.Framework")
     )
@@ -21,8 +21,8 @@ lazy val mygame =
       showCursor := true,
       title := "My Game - Made with Indigo",
       gameAssetsDirectory := "assets",
-      windowStartWidth := 550,
-      windowStartHeight := 400,
+      windowStartWidth := 412,
+      windowStartHeight := 896,
       libraryDependencies ++= Seq(
         "io.indigoengine" %%% "indigo-json-circe" % "0.3.0",
         "io.indigoengine" %%% "indigo"            % "0.3.0",
@@ -34,3 +34,5 @@ addCommandAlias("buildGame", ";compile;fastOptJS;indigoBuild")
 addCommandAlias("buildFullOptGame", ";compile;fullOptJS;indigoBuild")
 addCommandAlias("runGame", ";compile;fastOptJS;indigoRun")
 addCommandAlias("runFullOptGame", ";compile;fullOptJS;indigoRun")
+
+resolvers += Resolver.jcenterRepo

@@ -3,10 +3,20 @@ package config
 import indigo.{AssetName, AssetPath, AssetType, FontChar, FontInfo, FontKey, Material}
 
 object MyAssets {
-  val assetName = AssetName("dots")
-  val smallFontName = AssetName("smallFontName")
+  implicit def toAssetName(name: String): AssetName = AssetName(name)
+  implicit def toFontKey(key: String): FontKey = FontKey(key)
 
-  val fontKey: FontKey = FontKey("boxy font")
+  val smallFontName: AssetName = "smallFontName"
+  val dotsAssetName: AssetName = "dots"
+  val destructibleObjectsName: AssetName = "destructibleObjects"
+
+  val fontKey: FontKey = "boxy font"
+
+  val assets: Set[indigo.AssetType] = Set(
+    AssetType.Image(smallFontName, AssetPath("assets/boxy_font_small.png")),
+    AssetType.Image(dotsAssetName, AssetPath("assets/dots.png")),
+    AssetType.Image(destructibleObjectsName, AssetPath("assets/destructible_objects.png"))
+  )
 
   val fontInfo: FontInfo =
     FontInfo(fontKey, Material.Textured(smallFontName), 320, 230, FontChar("?", 47, 26, 11, 12))
@@ -61,8 +71,5 @@ object MyAssets {
       .addChar(FontChar(":", 2, 26, 5, 12))
       .addChar(FontChar("_", 42, 65, 9, 12))
 
-  val assets: Set[indigo.AssetType] = Set(
-    AssetType.Image(smallFontName, AssetPath("assets/boxy_font_small.png")),
-    AssetType.Image(assetName, AssetPath("assets/dots.png"))
-  )
+
 }

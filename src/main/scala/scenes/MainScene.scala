@@ -1,18 +1,19 @@
 package scenes
 
+import actors.Interact
 import config.{MyAssets, MyGameConfig}
-import indigo.{FrameTick, Graphic, Material, Outcome, Point, Radians, Rectangle, Signal}
 import indigo.scenes._
 import indigo.shared.FrameContext
 import indigo.shared.events.{EventFilters, GlobalEvent, MouseEvent}
 import indigo.shared.scenegraph.SceneUpdateFragment
 import indigo.shared.subsystems.SubSystem
+import indigo._
 import model.main.Dot
 import model.{MainSceneModel, MyGameModel, MyGameViewModel}
 
 object MainScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
   override type SceneModel = MainSceneModel
-  override type SceneViewModel = Unit
+  override type SceneViewModel = MyGameViewModel
 
   override def name: SceneName = SceneName("Main")
 
@@ -20,7 +21,7 @@ object MainScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
     Lens(model => model.mainScene,
       (model, sceneModel) => model.copy(sceneModel))
 
-  override def viewModelLens: Lens[MyGameViewModel, Unit] = Lens.fixed(())
+  override def viewModelLens: Lens[MyGameViewModel, MyGameViewModel] = Lens.keepLatest
 
   override def eventFilters: EventFilters = EventFilters.Default
 
@@ -30,7 +31,7 @@ object MainScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
   {
     case MouseEvent.Click(x, y) =>
       val adjustedPosition = Point(x, y) - model.center
-
+      //model.interact(model.chestActor, Interact)
       Outcome(
         model.addDot(
           Dot(
@@ -52,40 +53,31 @@ object MainScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
       Outcome(model)
   }
 
-  override def updateViewModel(context: FrameContext[Unit], model: MainSceneModel, sceneViewModel: Unit): GlobalEvent => Outcome[Unit] = _ => Outcome(())
+  override def updateViewModel(context: FrameContext[Unit], model: MainSceneModel, sceneViewModel: MyGameViewModel): GlobalEvent => Outcome[SceneViewModel] = _ => Outcome(sceneViewModel)
 
   def drawDots(
               center: Point,
               dots: List[Dot]
-            ): List[Graphic] =
+            ): List[Graphic] = {
+
+
   dots.map { dot =>
     val position = Point(
       (Math.sin(dot.angle.value) * dot.orbitDistance + center.x).toInt,
       (Math.cos(dot.angle.value) * dot.orbitDistance + center.y).toInt
     )
 
-    Graphic(Rectangle(0, 0, 32, 32), 1, Material.Textured(MyAssets.assetName))
+    Graphic(Rectangle(0, 0, 32, 32), 1, Material.Textured(MyAssets.dotsAssetName))
       .withCrop(Rectangle(16, 16, 16, 16))
       .withRef(8, 8)
       .moveTo(position)
   }
+  }
 
-  override def present(context: FrameContext[Unit], model: MainSceneModel, viewModel: Unit): SceneUpdateFragment =
+  override def present(context: FrameContext[Unit], model: MainSceneModel, viewModel: MyGameViewModel): SceneUpdateFragment =
     SceneUpdateFragment(
-      Graphic(Rectangle(0, 0, 32, 32), 1, Material.Textured(MyAssets.assetName)),
-      Graphic(Rectangle(0, 0, 32, 32), 1, Material.Textured(MyAssets.assetName))
-        .withCrop(Rectangle(16, 16, 16, 16))
-        .withRef(8, 8)
-        .moveTo(
-          Signal
-            .Orbit(MyGameConfig.config.viewport.giveDimensions(MyGameConfig.magnification).center, 30)
-            .map(_.toPoint)
-            .at(context.gameTime.running
-            ))
-        .moveBy((600.0f * context.delta.toFloat).toInt, 0),
-      Graphic(Rectangle(0, 0, 32, 32), 1, Material.Textured(MyAssets.assetName)
-      )
-    ).addGameLayerNodes(
+            viewModel.draw(model.chest).moveTo(MyGameConfig.config.viewport.giveDimensions(MyGameConfig.magnification).center)
+          ).addGameLayerNodes(
       drawDots(model.center, model.dots)
     )
 }

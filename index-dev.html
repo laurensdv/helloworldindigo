@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'unsafe-inline' 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+
+    <title>My Game - Made with Indigo</title>
+    <style>
+      body {
+        padding:0px;
+        margin:0px;
+        overflow-x: hidden;
+        overflow-y: hidden;
+      }
+      #indigo-container {
+        padding:0px;
+        margin:0px;
+      }
+
+
+    </style>
+    <script src="cordova.js"></script>
+</head>
+<body>
+
+<h1>Indigo Game Test</h1>
+<script type="text/javascript">
+window.onload = function () {
+    if (typeof history.pushState === "function") {
+        history.pushState("jibberish", null, null);
+        window.onpopstate = function () {
+            history.pushState('newjibberish', null, null);
+            // Handle the back (or forward) buttons here
+            // Will NOT handle refresh, use onbeforeunload for this.
+        };
+    }
+    else {
+        var ignoreHashChange = true;
+        window.onhashchange = function () {
+            if (!ignoreHashChange) {
+                ignoreHashChange = true;
+                window.location.hash = Math.random();
+                // Detect and redirect change here
+                // Works in older FF and IE9
+                // * it does mess with your hash symbol (anchor?) pound sign
+                // delimiter on the end of the URL
+            }
+            else {
+                ignoreHashChange = false;
+            }
+        };
+    }
+}
+    </script>
+<div id="indigo-container"></div>
+<script type="text/javascript" src="scripts/mygame-indigo_demo-fastopt.js"></script>
+<script type="text/javascript">IndigoGame.launch()</script>
+</body>
+</html>
