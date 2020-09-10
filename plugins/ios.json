@@ -7,23 +7,20 @@
     "files": {}
   },
   "installed_plugins": {
-    "cordova-plugin-screensize": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
-    },
-    "cordova-plugin-wkwebview-engine": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
-    },
-    "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
-    },
     "cordova-plugin-cors": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
-    },
-    "cordova-plugin-splashscreen": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+      "PACKAGE_NAME": "net.brachior.tests"
     },
     "cordova-plugin-httpd": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+      "PACKAGE_NAME": "net.brachior.tests"
+    },
+    "cordova-plugin-screensize": {
+      "PACKAGE_NAME": "net.brachior.tests"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "net.brachior.tests"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "net.brachior.tests"
     }
   },
   "dependent_plugins": {}

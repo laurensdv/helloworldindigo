@@ -1,27 +1,34 @@
 package model
 
-import actors.{Action, Chest, ChestClosed, ChestData, ChestRef}
-import akka.actor.{ActorRef, ActorSystem}
+import behaviours.{Action, Behaviour}
+import collision.Collidable
+import elements.Element
 import indigo.{Point, Seconds}
-import model.main.Dot
 
-case class MainSceneModel(center: Point, dots: List[Dot]) {
-  val actorSystem = ActorSystem("MyGame")
-  val chestData: ChestData = ChestClosed
-  val chestActor: ActorRef = ChestRef(chestData, actorSystem, "My Game's Chest")
+case class MainSceneModel(center: Point, elements: List[Element], behaviours: List[Behaviour]) {
 
-  def addDot(dot: Dot): MainSceneModel =
-    this.copy(dots = dot :: dots)
+  def addElement(element: Element): MainSceneModel =
+    this.copy(elements = element :: elements, behaviours = behaviours)
+
+  def addBehaviour(behaviour: Behaviour): MainSceneModel =
+    this.copy(elements = elements, behaviours = behaviour :: behaviours)
 
   def update(timeDelta: Seconds): MainSceneModel =
-    this.copy(dots = dots.map(_.update(timeDelta)))
+    this.copy(elements = elements.map(_.update(timeDelta)), behaviours = behaviours)
 
-  def interact(actorRef: ActorRef, action: Action): Unit = {
-    actorRef ! action
+  def interact(behaviour: Behaviour, action: Action): Unit = {
+    behaviour.actorRef ! action
   }
+
+  def collidables(): List[Collidable] =
+    behaviours
+      .filter(a => a.isInstanceOf[Collidable])
+      .map(_.asInstanceOf[Collidable])
 }
 
 object MainSceneModel {
-  def initial(center: Point): MainSceneModel = MainSceneModel(center, Nil)
+  def empty: MainSceneModel = MainSceneModel(null, Nil, Nil)
+  def centered(center: Point): MainSceneModel = MainSceneModel(center, Nil, Nil)
+  def initialized(center: Point, dots: List[Element], actors: List[Behaviour]) = MainSceneModel(center, dots, actors)
 }
 

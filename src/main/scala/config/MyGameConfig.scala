@@ -8,6 +8,8 @@ object MyGameConfig {
 
   val introTimeSeconds = 6
 
+  val chestSize = 32
+
   val config: GameConfig =
     GameConfig.default
       .withViewport(412, 896)

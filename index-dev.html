@@ -16,17 +16,26 @@
       #indigo-container {
         padding:0px;
         margin:0px;
+        width: 100vw;
+        height: 100vh;
+        display: block;
       }
-
-
     </style>
     <script src="cordova.js"></script>
+    <script type="text/javascript">
+    // device APIs are available
+    document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady() {
+        console.log("Device is Ready")
+        IndigoGame.launch()
+    }
+    </script>
+
 </head>
 <body>
-
-<h1>Indigo Game Test</h1>
 <script type="text/javascript">
-window.onload = function () {
+    window.onload = function () {
+
     if (typeof history.pushState === "function") {
         history.pushState("jibberish", null, null);
         window.onpopstate = function () {
@@ -55,6 +64,5 @@ window.onload = function () {
     </script>
 <div id="indigo-container"></div>
 <script type="text/javascript" src="scripts/mygame-indigo_demo-fastopt.js"></script>
-<script type="text/javascript">IndigoGame.launch()</script>
 </body>
 </html>

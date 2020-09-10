@@ -1,4 +1,4 @@
-package actors
+package behaviours
 
 import akka.actor.FSM
 

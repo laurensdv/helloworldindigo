@@ -7,9 +7,6 @@
     "files": {}
   },
   "installed_plugins": {
-    "cordova-plugin-wkwebview-engine": {
-      "PACKAGE_NAME": "net.brachior.tests"
-    },
     "cordova-plugin-screensize": {
       "PACKAGE_NAME": "net.brachior.tests"
     },
