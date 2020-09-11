@@ -22,21 +22,5 @@
     },
     "is_top_level": true,
     "variables": {}
-  },
-  "cordova-plugin-splashscreen": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-splashscreen@6.0.0"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-httpd": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-httpd"
-    },
-    "is_top_level": true,
-    "variables": {}
   }
 }

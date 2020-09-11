@@ -3,6 +3,7 @@ out/
 .metals/
 .DS_Store
 sbt
+plugins
 .sbt-local
 .cache
 .history

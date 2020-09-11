@@ -15,12 +15,6 @@
     },
     "cordova-plugin-cors": {
       "PACKAGE_NAME": "net.brachior.tests"
-    },
-    "cordova-plugin-splashscreen": {
-      "PACKAGE_NAME": "net.brachior.tests"
-    },
-    "cordova-plugin-httpd": {
-      "PACKAGE_NAME": "net.brachior.tests"
     }
   },
   "dependent_plugins": {}

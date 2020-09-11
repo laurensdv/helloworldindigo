@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "cordova-android": "^9.0.0",
+    "cordova-browser": "^6.0.0",
+    "cordova-electron": "^1.1.1",
+    "cordova-ios": "^6.1.1"
+  },
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-screensize": {},
+      "cordova-plugin-cors": {},
+      "cordova-plugin-whitelist": {}
+    }
+  }
+}
