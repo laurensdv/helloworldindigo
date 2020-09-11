@@ -16,5 +16,6 @@ target
 lib_managed
 src_managed
 .idea
+.bloop
 *.iml
 .vscode
