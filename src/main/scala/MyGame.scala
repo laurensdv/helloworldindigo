@@ -3,7 +3,7 @@ import config.{MyAssets, MyGameConfig}
 import scenes.{IntroScene, MainScene}
 import indigo._
 import indigo.scenes.{Scene, SceneName}
-import model.{MainSceneModel, MyGameModel, MyGameViewModel}
+import model.{IntroSceneModel, MainSceneModel, MyGameModel, MyGameViewModel}
 
 import scala.scalajs.js.annotation.JSExportTopLevel
 
@@ -12,13 +12,16 @@ object MyGame extends IndigoGame[Unit, Unit, MyGameModel, MyGameViewModel] {
 
   override def initialModel(startupData: Unit): MyGameModel = {
     val centerPos = MyGameConfig.config.viewport.giveDimensions(MyGameConfig.magnification).center
-    MyGameModel(MainSceneModel.initialized(
+    MyGameModel(
+      MainSceneModel.initialized(
       MyGameConfig.config.viewport.giveDimensions(MyGameConfig.magnification).center,
       Nil,
       List[Behaviour](
         behaviours.Chest(MyGameConfig.chestSize, centerPos, "GameChest")
-      )
-    ))
+        )
+      ),
+      IntroSceneModel.initialized()
+    )
   }
 
   override def boot(flags: Map[String, String]): BootResult[Unit] = BootResult

@@ -1,6 +1,6 @@
 package scenes
 
-import behaviours.{Chest, Interact}
+import behaviours.{BehaviourRegistry, Chest, Interact}
 import collision.BoundingBox
 import indigo._
 import indigo.scenes._
@@ -18,7 +18,7 @@ object MainScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
 
   override def modelLens: Lens[MyGameModel, MainSceneModel] =
     Lens(model => model.mainScene,
-      (model, sceneModel) => model.copy(sceneModel))
+      (model, sceneModel) => model.copy(sceneModel, model.introScene))
 
   override def viewModelLens: Lens[MyGameViewModel, MyGameViewModel] = Lens.keepLatest
 
@@ -31,11 +31,9 @@ object MainScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
     case MouseEvent.Click(x, y) =>
       //val adjustedPosition = Point(x, y) - model.center
 
-      BoundingBox.hits(model.collidables(), Point(x,y)).foreach(
-        c => c match {
-          case Chest(_, _, _) => model.interact(c.asInstanceOf[Chest], Interact)
-        }
-      )
+      BoundingBox.hits(model.collidables(), Point(x, y)).foreach {
+        case Chest(_, _, tag, _, _) => model.interact(tag, Interact)
+      }
 
       Outcome(
         model
@@ -61,14 +59,12 @@ object MainScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
 
   override def updateViewModel(context: FrameContext[Unit], model: MainSceneModel, sceneViewModel: MyGameViewModel): GlobalEvent => Outcome[SceneViewModel] = _ => Outcome(sceneViewModel)
 
-
-
   override def present(context: FrameContext[Unit], model: MainSceneModel, viewModel: MyGameViewModel): SceneUpdateFragment =
     SceneUpdateFragment()
       //.addGameLayerNodes(
       //  viewModel.drawDots(model.center, model.dots)
       //)
       .addGameLayerNodes(
-        model.behaviours.map(viewModel.draw)
+        BehaviourRegistry.all(model.behaviours).map(viewModel.draw)
       )
 }

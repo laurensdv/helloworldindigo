@@ -1,12 +1,18 @@
 package behaviours
 
-import akka.actor.Props
+import akka.actor.{ActorRef, Props}
 import collision.Collidable
 import config.MyGameActorSystem
 import indigo.Point
 
-case class Chest(size: Integer, pos: Point, name: String) extends Behaviour with Collidable {
-  var stateData: Data = ChestClosed
+case class Chest(size: Integer, pos: Point, name: String, stateData: Data = ChestClosed, actorRef: ActorRef) extends Behaviour with Collidable {
 
-  lazy val actorRef = MyGameActorSystem.actorSystem.actorOf(Props(classOf[ChestActor], this), name)
+  override def updateState(data: Data): Behaviour = this.copy(size, pos, name, data, actorRef)
+
+}
+
+object Chest {
+  def apply(size: Integer, pos: Point, name: String): Chest = {
+    Chest(size, pos, name, ChestClosed, MyGameActorSystem.actorSystem.actorOf(Props(classOf[ChestActor], name), name))
+  }
 }

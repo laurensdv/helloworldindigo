@@ -6,4 +6,6 @@ trait State
 trait Action
 trait Data
 
-trait MyGameActor extends FSM[State, Data]
+trait MyGameActor extends FSM[State, Data] {
+  val tag: String
+}

@@ -6,6 +6,9 @@ import indigo.Point
 trait Behaviour {
   val size: Integer
   val pos: Point
+  val name: String
   val actorRef: ActorRef
-  var stateData: Data
+  val stateData: Data
+
+  def updateState(data: Data): Behaviour
 }

@@ -1,6 +1,10 @@
 package config
 
+import java.util.concurrent.TimeUnit
+
 import indigo.GameConfig
+
+import scala.concurrent.duration.FiniteDuration
 
 object MyGameConfig {
 
@@ -9,6 +13,8 @@ object MyGameConfig {
   val introTimeSeconds = 6
 
   val chestSize = 32
+
+  val timeout: FiniteDuration = FiniteDuration(1, TimeUnit.SECONDS)
 
   val config: GameConfig =
     GameConfig.default

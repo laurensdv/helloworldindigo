@@ -10,7 +10,7 @@ object Interact extends Action
 object ChestClosed extends Data
 object ChestOpened extends Data
 
-protected class ChestActor(chest: Chest) extends MyGameActor {
+protected case class ChestActor(tag: String) extends MyGameActor {
 
   startWith(Closed, ChestClosed)
 
@@ -28,14 +28,13 @@ protected class ChestActor(chest: Chest) extends MyGameActor {
     case _ => stay()
   }
 
-  def signalState() = {
-    chest.stateData = nextStateData
-    println(chest.stateData)
+  def signalState(data: Data) = {
+    BehaviourRegistry.changeBehaviourState(tag, data)
   }
 
   onTransition {
-    case Opened -> Closed => signalState()
-    case Closed -> Opened => signalState()
+    case Opened -> Closed => signalState(nextStateData)
+    case Closed -> Opened => signalState(nextStateData)
   }
 
   initialize()
