@@ -37,17 +37,6 @@ object MainScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
 
       Outcome(
         model
-        //          .addDot(
-        //            Dot(
-        //              Point.distanceBetween(model.center, Point(x, y)).toInt,
-        //              Radians(
-        //                Math.atan2(
-        //                  adjustedPosition.x.toDouble,
-        //                  adjustedPosition.y.toDouble
-        //                )
-        //              )
-        //            )
-        //          )
       )
 
     case FrameTick =>
@@ -66,5 +55,7 @@ object MainScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
       //)
       .addGameLayerNodes(
         BehaviourRegistry.all(model.behaviours).map(viewModel.draw)
-      )
+      ).addGameLayerNodes(
+        model.moveables().map(viewModel.draw)
+    )
 }

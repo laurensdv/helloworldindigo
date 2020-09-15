@@ -6,9 +6,7 @@ import config.MyGameActorSystem
 import indigo.Point
 
 case class Chest(size: Integer, pos: Point, name: String, stateData: Data = ChestClosed, actorRef: ActorRef) extends Behaviour with Collidable {
-
   override def updateState(data: Data): Behaviour = this.copy(size, pos, name, data, actorRef)
-
 }
 
 object Chest {

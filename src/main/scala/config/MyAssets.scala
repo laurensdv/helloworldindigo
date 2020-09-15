@@ -1,25 +1,42 @@
 package config
 
-import indigo.{AssetName, AssetPath, AssetType, FontChar, FontInfo, FontKey, Material}
+import indigo._
 
 object MyAssets {
   implicit def toAssetName(name: String): AssetName = AssetName(name)
+  implicit def toAssetPath(path: String): AssetPath = AssetPath(path)
   implicit def toFontKey(key: String): FontKey = FontKey(key)
 
   val smallFontName: AssetName = "smallFontName"
   val dotsAssetName: AssetName = "dots"
+  val coinsAssetName: AssetName = "coins"
   val destructibleObjectsName: AssetName = "destructibleObjects"
 
   val fontKey: FontKey = "boxy font"
 
   val assets: Set[indigo.AssetType] = Set(
-    AssetType.Image(smallFontName, AssetPath("assets/boxy_font_small.png")),
-    AssetType.Image(dotsAssetName, AssetPath("assets/dots.png")),
-    AssetType.Image(destructibleObjectsName, AssetPath("assets/destructible_objects.png"))
+    AssetType.Image(smallFontName, "assets/boxy_font_small.png"),
+    AssetType.Image(dotsAssetName, "assets/dots.png"),
+    AssetType.Image(destructibleObjectsName, "assets/destructible_objects.png"),
+    AssetType.Image(coinsAssetName, "assets/coins/MonedaD.png")
+  )
+
+
+  val animations: Set[Animation] = Set(
+    Animation(
+      AnimationKey(MyGameConfig.coinAnimsKey),
+      Material.Textured(MyAssets.coinsAssetName),
+      Frame(Rectangle(0, 0, 16, 16), Millis(166)),
+      Frame(Rectangle(16, 0, 16, 16), Millis(166)),
+      Frame(Rectangle(32, 0, 16, 16), Millis(166)),
+      Frame(Rectangle(48, 0, 16, 16), Millis(166)),
+      Frame(Rectangle(64, 0, 16, 16), Millis(166))
+    )
   )
 
   val fontInfo: FontInfo =
-    FontInfo(fontKey, Material.Textured(smallFontName), 320, 230, FontChar("?", 47, 26, 11, 12))
+    FontInfo(fontKey, Material.Textured(smallFontName), 320, 230,
+      FontChar("?", 47, 26, 11, 12))
       .addChar(FontChar("A", 2, 39, 10, 12))
       .addChar(FontChar("B", 14, 39, 9, 12))
       .addChar(FontChar("C", 25, 39, 10, 12))
@@ -70,6 +87,4 @@ object MyAssets {
       .addChar(FontChar("/", 150, 0, 9, 12))
       .addChar(FontChar(":", 2, 26, 5, 12))
       .addChar(FontChar("_", 42, 65, 9, 12))
-
-
 }
