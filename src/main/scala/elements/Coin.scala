@@ -19,9 +19,12 @@ case class Coin(tag: String, moveAbleProps: MoveAbleProps = MoveAbleProps(), run
           if (Math.abs(newSpeed) < MyGameConfig.dampingFactor) 0
           else newSpeed,
         acceleration =
-          if (Math.abs(newSpeed) > MyGameConfig.dampingFactor)
-            acceleration - MyGameConfig.dampingFactor * timeDelta.toDouble
-          else
+          if (Math.abs(newSpeed) > MyGameConfig.dampingFactor) {
+            if(newSpeed < 0)
+              acceleration + MyGameConfig.dampingFactor * timeDelta.toDouble
+            else
+              acceleration - MyGameConfig.dampingFactor * timeDelta.toDouble
+          } else
             0
       ), runtime = runtime + timeDelta
     ).gravity(timeDelta)

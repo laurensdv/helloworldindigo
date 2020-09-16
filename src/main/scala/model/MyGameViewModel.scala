@@ -14,8 +14,6 @@ case class MyGameViewModel() {
     BindingKey(tag), 0, 0, 1, AnimationKey(MyGameConfig.coinAnimsKey)
   )
 
-
-
   def chestClosed: Graphic = chestGraphic
     .withCrop(Rectangle(16, 16 + 11 * 64, 32, 32))
     .withRef(16, 16)
@@ -35,7 +33,7 @@ case class MyGameViewModel() {
 
   def draw(moveable: Movable): SceneGraphNode = moveable match {
     case Coin(tag, _, _) => {
-      coinAnimation(tag).rotate(moveable.rotation).moveTo(moveable.pos).play()
+      coinAnimation(tag).withRef(8,8).rotate(moveable.rotation).moveTo(moveable.pos).play()
     }
     case Dot(_, _) => Graphic(Rectangle(0, 0, 32, 32), 1, Material.Textured(MyAssets.dotsAssetName))
       .withCrop(Rectangle(16, 16, 16, 16))
