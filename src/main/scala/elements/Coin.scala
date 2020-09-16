@@ -1,17 +1,18 @@
 package elements
 
-import animation.{MoveAbleProps, Moveable}
+import animation.{GravitySusceptable, MoveAbleProps, Moveable}
 import config.MyGameConfig
 import indigo.{Dice, Point, Radians, Seconds}
 
-case class Coin(tag: String, moveAbleProps: MoveAbleProps = MoveAbleProps(), runtime: Seconds = Seconds(0)) extends Element with Moveable {
-  val acceleration = moveAbleProps.acceleration
-  val speed = moveAbleProps.speed
+case class Coin(tag: String, moveAbleProps: MoveAbleProps = MoveAbleProps(), runtime: Seconds = Seconds(0)) extends Element with Moveable with GravitySusceptable {
+  val acceleration: Double = moveAbleProps.acceleration
+  val speed: Double = moveAbleProps.speed
 
   override def update(timeDelta: Seconds): Coin = {
     println(acceleration)
     val newSpeed = speed + acceleration * timeDelta.toDouble
-    this.copy(tag = tag, moveAbleProps = moveAbleProps.copy(
+    val appliedGravity = gravity(timeDelta)
+    appliedGravity.copy(tag = tag, moveAbleProps = appliedGravity.moveAbleProps.copy(
         distance = distance + newSpeed * timeDelta.toDouble,
         speed =
           if (Math.abs(newSpeed) < MyGameConfig.dampingFactor) 0
@@ -44,6 +45,38 @@ case class Coin(tag: String, moveAbleProps: MoveAbleProps = MoveAbleProps(), run
       ),
       runtime = Seconds(0)
     )
+  }
+
+  override def gravity(timeDelta: Seconds): Coin = {
+    def oldPos = pos - moveAbleProps.pivot
+
+    println(MyGameConfig.horizon - pos.y)
+    if(pos.y <= MyGameConfig.horizon) {
+      val diffY: Double = MyGameConfig.g * timeDelta.toDouble
+      val newY: Double = oldPos.y.toDouble + diffY
+      val newAngle =
+        if (oldPos.y == 0) {
+          if(oldPos.x > 0) Radians(0)
+          else Radians(Math.PI)
+        } else {
+          if(oldPos.x != 0) Radians(Math.atan(newY / oldPos.x.toDouble))
+          else
+            if(oldPos.y < 0) Radians(-Math.PI/2)
+            else Radians(Math.PI/2)
+        }
+
+      println(angle)
+      println(newAngle)
+      println(diffY)
+      println(newY / Math.sin(newAngle.value))
+
+      this.copy(moveAbleProps = moveAbleProps.copy(
+        angle = newAngle,
+        distance = newY / Math.sin(newAngle.value)
+      ))
+    } else {
+      this.copy()
+    }
   }
 }
 

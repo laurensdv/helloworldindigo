@@ -18,8 +18,8 @@ object MyGame extends IndigoGame[Unit, Unit, MyGameModel, MyGameViewModel] {
       MainSceneModel.initialized(
       MyGameConfig.config.viewport.giveDimensions(MyGameConfig.magnification).center,
       List[Element](
-        elements.Coin("coin 1", centerPos, 60, Radians(0.0)),
-        elements.Coin("coin 2", centerPos, 80, Radians(Math.PI / 2))
+        elements.Coin("coin 1", centerPos, 60, Radians(- Math.PI / 4)),
+        elements.Coin("coin 2", centerPos, 80, Radians(- Math.PI / 2))
       ),
       List[Behaviour](
         behaviours.Chest(MyGameConfig.chestSize, centerPos, "GameChest")

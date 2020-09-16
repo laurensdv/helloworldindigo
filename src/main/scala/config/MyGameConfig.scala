@@ -22,6 +22,12 @@ object MyGameConfig {
 
   val timeout: FiniteDuration = FiniteDuration(1, TimeUnit.SECONDS)
 
+
+
+  val height = 896
+  val width = 412
+  val horizon:Int = (height / 1.618).toInt
+  val g: Double = 9.8
   val advancedGameConfig: AdvancedGameConfig =
     AdvancedGameConfig(
       renderingTechnology = WebGL2WithFallback,
@@ -33,7 +39,7 @@ object MyGameConfig {
 
   val config: GameConfig =
     GameConfig.default
-      .withViewport(412, 896)
+      .withViewport(width, height)
       .withFrameRate(60)
       .withMagnification(magnification)
       .withAdvancedSettings(advancedGameConfig)
