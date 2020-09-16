@@ -34,10 +34,10 @@ case class MyGameViewModel() {
       .moveTo(behaviour.pos)
 
   def draw(moveable: Moveable): SceneGraphNode = moveable match {
-    case Coin(tag, _, _, _, _, _) => {
+    case Coin(tag, _, _) => {
       coinAnimation(tag).rotate(moveable.rotation).moveTo(moveable.pos).play()
     }
-    case Dot(_, _, _, _) => Graphic(Rectangle(0, 0, 32, 32), 1, Material.Textured(MyAssets.dotsAssetName))
+    case Dot(_, _) => Graphic(Rectangle(0, 0, 32, 32), 1, Material.Textured(MyAssets.dotsAssetName))
       .withCrop(Rectangle(16, 16, 16, 16))
       .withRef(8, 8)
       .moveTo(moveable.pos)
@@ -46,8 +46,8 @@ case class MyGameViewModel() {
   def drawDots(center: Point, dots: List[Dot]): List[Graphic] = {
     dots.map { dot =>
       val position = Point(
-        (Math.sin(dot.rad.value) * dot.distance + center.x).toInt,
-        (Math.cos(dot.rad.value) * dot.distance + center.y).toInt
+        (Math.sin(dot.angle.value) * dot.distance + center.x).toInt,
+        (Math.cos(dot.angle.value) * dot.distance + center.y).toInt
       )
 
       Graphic(Rectangle(0, 0, 32, 32), 1, Material.Textured(MyAssets.dotsAssetName))

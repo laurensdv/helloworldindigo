@@ -1,7 +1,8 @@
 package scenes
 
 import behaviours.{BehaviourRegistry, Chest, Interact}
-import collision.BoundingBox
+import collision.{BoundingBox, Collidable}
+import elements.Coin
 import indigo._
 import indigo.scenes._
 import indigo.shared.FrameContext
@@ -31,15 +32,28 @@ object MainScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
     case MouseEvent.Click(x, y) =>
       //val adjustedPosition = Point(x, y) - model.center
 
-      BoundingBox.hits(model.collidables(), Point(x, y)).foreach {
-        case Chest(_, _, tag, _, _) => model.interact(tag, Interact)
+      val hits: List[Collidable] = BoundingBox.hits(model.collidables(), Point(x, y))
+
+      hits.foreach {
+        case Chest(_, _, tag, _, _) => {
+          model.interact(tag, Interact)
+        }
       }
 
+      if (hits.length > 0) //accelerate coin if we hit something.
       Outcome(
-        model
+        model.updateElements(
+          model
+            .moveables()
+            .filter(_.isInstanceOf[Coin])
+            .map(_.asInstanceOf[Coin].push(5.0))
+        )
       )
+      else
+        Outcome(model)
 
     case FrameTick =>
+
       Outcome(model.update(context.delta))
 
     case _ =>

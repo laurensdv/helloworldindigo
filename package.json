@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "cordova": "^10.0.0",
     "cordova-android": "^9.0.0",
     "cordova-browser": "^6.0.0",
     "cordova-electron": "^1.1.1",

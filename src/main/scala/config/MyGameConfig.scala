@@ -18,7 +18,7 @@ object MyGameConfig {
 
   val coinAnimsKey = "coinsAnim"
 
-  val dampingFactor = 0.1
+  val dampingFactor = 0.3
 
   val timeout: FiniteDuration = FiniteDuration(1, TimeUnit.SECONDS)
 

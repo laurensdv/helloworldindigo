@@ -1,25 +1,19 @@
 package animation
 
-import indigo.{Point, Radians}
+import indigo.{Point, Radians, Seconds}
 
 trait Moveable {
   val tag: String
-  val distance: Int
-  val rad: Radians
-  val rotation: Radians
-  val pivot: Point = Point(0, 0)
-  val rotSpeed: Radians = Radians(0)
-  val radSpeed: Double = 0
-  val floatSpeed: Double = 0
-  val radAccelleration: Double = 0
-  val floatAcceleration: Double = 0
-  val floatDamping: Double = 0
-  val radDamping: Double = 0
+  val moveAbleProps: MoveAbleProps
+  val runTime: Seconds = Seconds(0)
 
-  def resRadSpeed: Double = Math.min(radSpeed - radDamping, 0)
-  def resFloatSpeed: Double = Math.min(floatSpeed - floatDamping, 0)
+  def pos: Point = Point((moveAbleProps.distance * Math.cos(moveAbleProps.angle.value)).toInt,
+                         (moveAbleProps.distance * Math.sin(moveAbleProps.angle.value)).toInt) + moveAbleProps.pivot
 
-  def pos: Point = Point((distance * Math.cos(rad.value)).toInt, (distance * Math.sin(rad.value)).toInt) + pivot
+  def rotation: Radians = moveAbleProps.rotation
+  def angle: Radians = moveAbleProps.angle
+  def distance: Double = moveAbleProps.distance
 
+  def push(vel: Double): Moveable
   def accelerate(accel: Double): Moveable
 }
