@@ -2,7 +2,7 @@ package animation
 
 import indigo.{Point, Radians, Seconds}
 
-trait Moveable {
+trait Movable {
   val tag: String
   val moveAbleProps: MoveAbleProps
   val runTime: Seconds = Seconds(0)
@@ -14,6 +14,6 @@ trait Moveable {
   def angle: Radians = moveAbleProps.angle
   def distance: Double = moveAbleProps.distance
 
-  def push(vel: Double): Moveable
-  def accelerate(accel: Double): Moveable
+  def push(vel: Double): Movable
+  def accelerate(accel: Double): Movable
 }

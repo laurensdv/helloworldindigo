@@ -22,11 +22,9 @@ object MyGameConfig {
 
   val timeout: FiniteDuration = FiniteDuration(1, TimeUnit.SECONDS)
 
-
-
   val height = 896
   val width = 412
-  val horizon:Int = (height / 1.618).toInt
+  val horizon: Int = (height - (height.toDouble / 1.618) / 1.618).toInt / magnification
   val g: Double = 9.8
   val advancedGameConfig: AdvancedGameConfig =
     AdvancedGameConfig(
@@ -40,7 +38,7 @@ object MyGameConfig {
   val config: GameConfig =
     GameConfig.default
       .withViewport(width, height)
-      .withFrameRate(60)
+      .withFrameRate(2)
       .withMagnification(magnification)
       .withAdvancedSettings(advancedGameConfig)
 

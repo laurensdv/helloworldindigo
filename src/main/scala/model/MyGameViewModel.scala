@@ -1,6 +1,6 @@
 package model
 
-import animation.Moveable
+import animation.Movable
 import behaviours.{Behaviour, ChestClosed, ChestOpened, Data}
 import config.{MyAssets, MyGameConfig}
 import elements.{Coin, Dot}
@@ -33,7 +33,7 @@ case class MyGameViewModel() {
     draw(behaviour.stateData)
       .moveTo(behaviour.pos)
 
-  def draw(moveable: Moveable): SceneGraphNode = moveable match {
+  def draw(moveable: Movable): SceneGraphNode = moveable match {
     case Coin(tag, _, _) => {
       coinAnimation(tag).rotate(moveable.rotation).moveTo(moveable.pos).play()
     }

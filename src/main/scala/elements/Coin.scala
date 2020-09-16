@@ -1,18 +1,19 @@
 package elements
 
-import animation.{GravitySusceptable, MoveAbleProps, Moveable}
+import animation.{GravitySusceptible, Movable, MoveAbleProps}
 import config.MyGameConfig
 import indigo.{Dice, Point, Radians, Seconds}
+import utils.Conversions
 
-case class Coin(tag: String, moveAbleProps: MoveAbleProps = MoveAbleProps(), runtime: Seconds = Seconds(0)) extends Element with Moveable with GravitySusceptable {
+case class Coin(tag: String, moveAbleProps: MoveAbleProps = MoveAbleProps(), runtime: Seconds = Seconds(0)) extends Element with GravitySusceptible with Movable {
   val acceleration: Double = moveAbleProps.acceleration
   val speed: Double = moveAbleProps.speed
 
   override def update(timeDelta: Seconds): Coin = {
-    println(acceleration)
     val newSpeed = speed + acceleration * timeDelta.toDouble
-    val appliedGravity = gravity(timeDelta)
-    appliedGravity.copy(tag = tag, moveAbleProps = appliedGravity.moveAbleProps.copy(
+    println(newSpeed)
+    println("---")
+    this.copy(tag = tag, moveAbleProps = moveAbleProps.copy(
         distance = distance + newSpeed * timeDelta.toDouble,
         speed =
           if (Math.abs(newSpeed) < MyGameConfig.dampingFactor) 0
@@ -23,7 +24,7 @@ case class Coin(tag: String, moveAbleProps: MoveAbleProps = MoveAbleProps(), run
           else
             0
       ), runtime = runtime + timeDelta
-    )
+    ).gravity(timeDelta)
   }
 
   override def push(vel: Double): Coin = {
@@ -37,7 +38,6 @@ case class Coin(tag: String, moveAbleProps: MoveAbleProps = MoveAbleProps(), run
   }
 
   override def accelerate(accel: Double): Coin = {
-
     this.copy(moveAbleProps = moveAbleProps.copy(
       rotation = rotation,
       distance = distance, 
@@ -48,34 +48,30 @@ case class Coin(tag: String, moveAbleProps: MoveAbleProps = MoveAbleProps(), run
   }
 
   override def gravity(timeDelta: Seconds): Coin = {
-    def oldPos = pos - moveAbleProps.pivot
+    def oldPos: Point = pos - moveAbleProps.pivot
+    println(pos)
+    if(pos.y < MyGameConfig.horizon) {
+      val newY: Double = Math.min(MyGameConfig.horizon.toDouble - moveAbleProps.pivot.y.toDouble,
+                                  oldPos.y.toDouble + MyGameConfig.g * timeDelta.toDouble)
+      val newAngle: Radians = Conversions.pointToRadians(oldPos.x.toDouble, newY)
 
-    println(MyGameConfig.horizon - pos.y)
-    if(pos.y <= MyGameConfig.horizon) {
-      val diffY: Double = MyGameConfig.g * timeDelta.toDouble
-      val newY: Double = oldPos.y.toDouble + diffY
-      val newAngle =
-        if (oldPos.y == 0) {
-          if(oldPos.x > 0) Radians(0)
-          else Radians(Math.PI)
-        } else {
-          if(oldPos.x != 0) Radians(Math.atan(newY / oldPos.x.toDouble))
-          else
-            if(oldPos.y < 0) Radians(-Math.PI/2)
-            else Radians(Math.PI/2)
-        }
-
-      println(angle)
-      println(newAngle)
-      println(diffY)
-      println(newY / Math.sin(newAngle.value))
+      println(newY - oldPos.y)
+      println(newAngle - angle)
+      println(Math.sqrt(Math.pow(oldPos.x.toDouble, 2) + Math.pow(newY, 2)) - distance)
 
       this.copy(moveAbleProps = moveAbleProps.copy(
         angle = newAngle,
-        distance = newY / Math.sin(newAngle.value)
-      ))
+        distance = Conversions.originCoordinatesToDistance(oldPos.x.toDouble, newY),
+        rotation = rotation + Radians(Math.PI * timeDelta.toDouble)
+      )
+      )
     } else {
-      this.copy()
+      this.copy(moveAbleProps = moveAbleProps.copy(
+        angle = Conversions.pointToRadians(oldPos.x.toDouble, MyGameConfig.horizon.toDouble - moveAbleProps.pivot.y),
+        distance = Conversions.originCoordinatesToDistance(oldPos.x.toDouble, MyGameConfig.horizon.toDouble - moveAbleProps.pivot.y),
+        rotation = rotation + Radians(Math.PI * timeDelta.toDouble)
+      )
+      )
     }
   }
 }

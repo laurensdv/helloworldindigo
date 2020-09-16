@@ -1,9 +1,9 @@
 package elements
 
-import animation.{MoveAbleProps, Moveable}
+import animation.{MoveAbleProps, Movable}
 import indigo.{Radians, Seconds}
 
-case class Dot(tag: String, moveAbleProps: MoveAbleProps = MoveAbleProps()) extends Element with Moveable {
+case class Dot(tag: String, moveAbleProps: MoveAbleProps = MoveAbleProps()) extends Element with Movable {
 
   def update(timeDelta: Seconds): Dot =
     this.copy(moveAbleProps = moveAbleProps.copy(

@@ -46,14 +46,13 @@ object MainScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
           model
             .moveables()
             .filter(_.isInstanceOf[Coin])
-            .map(_.asInstanceOf[Coin].push(5.0))
+            .map(_.asInstanceOf[Coin].push(-12.0))
         )
       )
       else
         Outcome(model)
 
     case FrameTick =>
-
       Outcome(model.update(context.delta))
 
     case _ =>
@@ -64,9 +63,6 @@ object MainScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
 
   override def present(context: FrameContext[Unit], model: MainSceneModel, viewModel: MyGameViewModel): SceneUpdateFragment =
     SceneUpdateFragment()
-      //.addGameLayerNodes(
-      //  viewModel.drawDots(model.center, model.dots)
-      //)
       .addGameLayerNodes(
         BehaviourRegistry.all(model.behaviours).map(viewModel.draw)
       ).addGameLayerNodes(

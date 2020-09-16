@@ -1,6 +1,6 @@
 package model
 
-import animation.Moveable
+import animation.Movable
 import behaviours.{Action, Behaviour, BehaviourRegistry}
 import collision.Collidable
 import elements.Element
@@ -29,10 +29,10 @@ case class MainSceneModel(center: Point, elements: List[Element], behaviours: Li
       BehaviourRegistry(behaviour).actorRef ! action
   }
 
-  def moveables(): List[Moveable] =
+  def moveables(): List[Movable] =
     elements
-      .filter(_.isInstanceOf[Moveable])
-      .map(_.asInstanceOf[Moveable])
+      .filter(_.isInstanceOf[Movable])
+      .map(_.asInstanceOf[Movable])
 
   def collidables(): List[Collidable] =
     BehaviourRegistry
