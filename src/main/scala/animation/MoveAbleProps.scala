@@ -10,5 +10,7 @@ case class MoveAbleProps(
    rotation: Radians = Radians(0),
    acceleration: Double = 0,
    pivot: Point = Point(0, 0),
-   rotSpeed: Radians = Radians(0)
+   rotSpeed: Radians = Radians(0),
+   prevPos: Point = Point(0,0),
+   size: Int = 0
 )

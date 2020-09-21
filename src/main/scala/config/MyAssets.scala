@@ -1,6 +1,6 @@
 package config
 
-import indigo._
+import indigo.{AssetType, Graphic, Rectangle, _}
 
 object MyAssets {
   implicit def toAssetName(name: String): AssetName = AssetName(name)
@@ -11,6 +11,7 @@ object MyAssets {
   val dotsAssetName: AssetName = "dots"
   val coinsAssetName: AssetName = "coins"
   val destructibleObjectsName: AssetName = "destructibleObjects"
+  val smokeEffectAssetName: AssetName = "smokeEffectAssetName"
 
   val fontKey: FontKey = "boxy font"
 
@@ -18,9 +19,9 @@ object MyAssets {
     AssetType.Image(smallFontName, "assets/boxy_font_small.png"),
     AssetType.Image(dotsAssetName, "assets/dots.png"),
     AssetType.Image(destructibleObjectsName, "assets/destructible_objects.png"),
-    AssetType.Image(coinsAssetName, "assets/coins/MonedaD.png")
+    AssetType.Image(coinsAssetName, "assets/coins/MonedaD.png"),
+    AssetType.Image(smokeEffectAssetName, "assets/fumacinha.png")
   )
-
 
   val animations: Set[Animation] = Set(
     Animation(
@@ -31,8 +32,20 @@ object MyAssets {
       Frame(Rectangle(32, 0, 16, 16), Millis(166)),
       Frame(Rectangle(48, 0, 16, 16), Millis(166)),
       Frame(Rectangle(64, 0, 16, 16), Millis(166))
-    )
+    ),
+    Animation(
+      AnimationKey(MyGameConfig.smokeAnimsKey),
+      Material.Textured(MyAssets.smokeEffectAssetName),
+      Frame(Rectangle(0, 32, 32, 32), Millis(166)),
+      Frame(Rectangle(0, 64, 32, 32), Millis(167)),
+      Frame(Rectangle(32, 0, 32, 32), Millis(167)),
+      Frame(Rectangle(32, 32, 32, 32), Millis(167)),
+      Frame(Rectangle(32, 64, 32, 32), Millis(167)),
+      Frame(Rectangle(64, 0, 16, 16), Millis(166))
+    ),
   )
+
+  val chestGraphic = Graphic(Rectangle(0, 0, 448, 768), 1, Material.Textured(MyAssets.destructibleObjectsName))
 
   val fontInfo: FontInfo =
     FontInfo(fontKey, Material.Textured(smallFontName), 320, 230,

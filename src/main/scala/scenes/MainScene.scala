@@ -1,8 +1,10 @@
 package scenes
 
+import animation.{Fixed, Movable, Timely}
 import behaviours.{BehaviourRegistry, Chest, Interact}
 import collision.{BoundingBox, Collidable}
-import elements.Coin
+import config.MyGameConfig
+import elements.{Coin, SmokeEffect}
 import indigo._
 import indigo.scenes._
 import indigo.shared.FrameContext
@@ -31,8 +33,7 @@ object MainScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
 
     case MouseEvent.Click(x, y) =>
       //val adjustedPosition = Point(x, y) - model.center
-
-      val hits: List[Collidable] = BoundingBox.hits(model.collidables(), Point(x, y))
+      val hits: List[Collidable] = BoundingBox.hits(model.clickables(), Point(x, y))
 
       hits.foreach {
         case Chest(_, _, tag, _, _) => {
@@ -41,19 +42,36 @@ object MainScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
       }
 
       if (hits.length > 0) //accelerate coin if we hit something.
-      Outcome(
-        model.updateElements(
-          model
-            .moveables()
-            .filter(_.isInstanceOf[Coin])
-            .map(_.asInstanceOf[Coin].push(-12.0))
+        Outcome(
+          model.updateElements(
+            model
+              .moveables()
+              .filter(_.isInstanceOf[Coin])
+              .map(_.asInstanceOf[Coin].push(-12.0))
+          )
         )
-      )
       else
         Outcome(model)
 
     case FrameTick =>
-      Outcome(model.update(context.delta))
+      val hits = model.collidables()
+        .filter(c => BoundingBox(c.pos(), c.size())
+          .hitCenter(MyGameConfig.horizon))
+        .filter(_.isInstanceOf[Movable])
+        .map(_.asInstanceOf[Movable])
+        .filter(_.moved)
+        .map(_.asInstanceOf[Collidable])
+
+      val smokes = for {
+        h <- hits
+      } yield SmokeEffect("smoke_"+System.currentTimeMillis().hashCode(), Seconds(1), h.pos())
+
+      println("got hits: " + smokes.length)
+
+      Outcome(model
+        .updateElements(smokes)
+        .update(context.delta)
+      )
 
     case _ =>
       Outcome(model)
@@ -64,8 +82,15 @@ object MainScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
   override def present(context: FrameContext[Unit], model: MainSceneModel, viewModel: MyGameViewModel): SceneUpdateFragment =
     SceneUpdateFragment()
       .addGameLayerNodes(
-        BehaviourRegistry.all(model.behaviours).map(viewModel.draw)
+        BehaviourRegistry.all(model.behaviours).map(viewModel.draw) // Behaviours
       ).addGameLayerNodes(
-        model.moveables().map(viewModel.draw)
-    )
+        model.moveables().map(viewModel.draw) //Moveables
+      ).addGameLayerNodes(
+        model.fixed()
+          .filter(_.isInstanceOf[Timely])
+          .map(_.asInstanceOf[Timely])
+          .filter(_.lifespan > Seconds(0))
+          .map(_.asInstanceOf[Fixed])
+          .map(viewModel.draw) //Timelies
+      )
 }

@@ -8,6 +8,16 @@ case class BoundingBox (ll: Point, lr: Point, ul: Point, ur: Point) {
 
   def hit(pt: Point): Boolean =
     ll.x <= pt.x & lr.x >= pt.x & ll.y <= pt.y & ul.y >= pt.y
+
+  def hit(y: Int): Boolean =
+    ll.y <= y & ul.y >= y
+
+  def hitInside(y: Int): Boolean =
+    ll.y < y & ul.y > y
+
+  def hitCenter(y: Int): Boolean =
+    ll.y + (ul.y - ll.y) / 2 == y
+
 }
 
 object BoundingBox {

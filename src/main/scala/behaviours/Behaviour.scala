@@ -4,7 +4,7 @@ import akka.actor.ActorRef
 import indigo.Point
 
 trait Behaviour {
-  val size: Integer
+  val size: Int
   val pos: Point
   val name: String
   val actorRef: ActorRef

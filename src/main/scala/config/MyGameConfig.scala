@@ -16,7 +16,11 @@ object MyGameConfig {
 
   val chestSize = 32
 
+  val coinSize = 16
+
   val coinAnimsKey = "coinsAnim"
+
+  val smokeAnimsKey = "smokeAnim"
 
   val dampingFactor = 0.3
 
@@ -38,7 +42,7 @@ object MyGameConfig {
   val config: GameConfig =
     GameConfig.default
       .withViewport(width, height)
-      .withFrameRate(2)
+      .withFrameRate(30)
       .withMagnification(magnification)
       .withAdvancedSettings(advancedGameConfig)
 

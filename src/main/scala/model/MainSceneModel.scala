@@ -1,8 +1,8 @@
 package model
 
-import animation.Movable
+import animation.{Fixed, Movable, Timely}
 import behaviours.{Action, Behaviour, BehaviourRegistry}
-import collision.Collidable
+import collision.{Clickable, Collidable}
 import elements.Element
 import indigo.{Point, Seconds}
 
@@ -22,7 +22,10 @@ case class MainSceneModel(center: Point, elements: List[Element], behaviours: Li
   }
 
   def update(timeDelta: Seconds): MainSceneModel =
-    this.copy(center = center, elements = elements.map(_.update(timeDelta)), behaviours = behaviours)
+    this.copy(center = center, elements = elements
+        .map(_.update(timeDelta))
+        .filter(p => if (p.isInstanceOf[Timely]) p.asInstanceOf[Timely].lifespan > Seconds(0) else true ) //clean up old timely objects
+      , behaviours = behaviours)
 
   def interact(behaviour: String, action: Action): Unit = {
     if(BehaviourRegistry.exists(behaviour))
@@ -35,10 +38,21 @@ case class MainSceneModel(center: Point, elements: List[Element], behaviours: Li
       .map(_.asInstanceOf[Movable])
 
   def collidables(): List[Collidable] =
-    BehaviourRegistry
-      .all(behaviours)
+    elements
       .filter(_.isInstanceOf[Collidable])
       .map(_.asInstanceOf[Collidable])
+
+  def clickables(): List[Clickable] =
+    BehaviourRegistry
+      .all(behaviours)
+      .filter(_.isInstanceOf[Clickable])
+      .map(_.asInstanceOf[Clickable])
+
+  def fixed(): List[Fixed] =
+    elements
+      .filter(_.isInstanceOf[Fixed])
+      .map(_.asInstanceOf[Fixed])
+
 }
 
 object MainSceneModel {
