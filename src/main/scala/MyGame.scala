@@ -5,7 +5,7 @@ import scenes.{IntroScene, MainScene}
 import indigo._
 import indigo.scenes.{Scene, SceneName}
 import indigoextras.subsystems.FPSCounter
-import model.{IntroSceneModel, MainSceneModel, MyGameModel, MyGameViewModel}
+import model.{CaveSceneModel, IntroSceneModel, MainSceneModel, MyGameModel, MyGameViewModel}
 
 import scala.scalajs.js.annotation.JSExportTopLevel
 
@@ -25,7 +25,8 @@ object MyGame extends IndigoGame[Unit, Unit, MyGameModel, MyGameViewModel] {
         behaviours.Chest(MyGameConfig.chestSize, centerPos, "GameChest")
         )
       ),
-      IntroSceneModel.initialized()
+      IntroSceneModel.initialized(),
+      CaveSceneModel()
     )
   }
 

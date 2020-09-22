@@ -20,8 +20,8 @@ object MainScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
   override def name: SceneName = SceneName("Main")
 
   override def modelLens: Lens[MyGameModel, MainSceneModel] =
-    Lens(model => model.mainScene,
-      (model, sceneModel) => model.copy(sceneModel, model.introScene))
+    Lens(model => model.mainSceneModel,
+      (model, sceneModel) => model.copy(mainSceneModel = sceneModel))
 
   override def viewModelLens: Lens[MyGameViewModel, MyGameViewModel] = Lens.keepLatest
 
@@ -30,6 +30,10 @@ object MainScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
   override def subSystems: Set[SubSystem] = Set()
 
   override def updateModel(context: FrameContext[Unit], model: MainSceneModel): GlobalEvent => Outcome[MainSceneModel] = {
+
+    case KeyboardEvent.KeyUp(Keys.SPACE) =>
+      Outcome(model)
+        .addGlobalEvents(SceneEvent.JumpTo(MainScene.name))
 
     case MouseEvent.Click(x, y) =>
       //val adjustedPosition = Point(x, y) - model.center

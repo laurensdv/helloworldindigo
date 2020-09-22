@@ -16,8 +16,8 @@ object IntroScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
   override def name: SceneName = SceneName("Intro")
 
   override def modelLens: Lens[MyGameModel, IntroSceneModel] =
-    Lens(model => model.introScene,
-      (model, sceneModel) => model.copy(model.mainScene, sceneModel))
+    Lens(model => model.introSceneModel,
+      (model, sceneModel) => model.copy(introSceneModel = sceneModel))
 
   override def viewModelLens: Lens[MyGameViewModel, Unit] = Lens.fixed(())
 
