@@ -1,11 +1,11 @@
 import behaviours.Behaviour
 import config.{MyAssets, MyGameConfig}
 import elements.Element
-import scenes.{IntroScene, MainScene}
+import scenes.{IntroScene, MainScene, CaveScene}
 import indigo._
-import indigo.scenes.{Scene, SceneName}
+import scenes.{Scene, SceneName}
 import indigoextras.subsystems.FPSCounter
-import model.{CaveSceneModel, IntroSceneModel, MainSceneModel, MyGameModel, MyGameViewModel}
+import model.{CaveSceneModel, CaveSceneViewModel, IntroSceneModel, MainSceneModel, MyGameModel, MyGameViewModel}
 
 import scala.scalajs.js.annotation.JSExportTopLevel
 
@@ -37,12 +37,12 @@ object MyGame extends IndigoGame[Unit, Unit, MyGameModel, MyGameViewModel] {
     .withFonts(MyAssets.fontInfo)
     .withSubSystems(Set(FPSCounter(MyAssets.fontKey, Point(5,5), 60)))
 
-  override def scenes(bootData: Unit): NonEmptyList[Scene[Unit, MyGameModel, MyGameViewModel]] = NonEmptyList(IntroScene, MainScene)
+  override def scenes(bootData: Unit): NonEmptyList[Scene[Unit, MyGameModel, MyGameViewModel]] = NonEmptyList(IntroScene, MainScene, CaveScene)
 
   override def initialScene(bootData: Unit): Option[SceneName] = Option(IntroScene.name)
 
   override def setup(bootData: Unit, assetCollection: AssetCollection, dice: Dice): Startup[StartupErrors, Unit] =
     Startup.Success(())
 
-  override def initialViewModel(startupData: Unit, model: MyGameModel): MyGameViewModel = MyGameViewModel()
+  override def initialViewModel(startupData: Unit, model: MyGameModel): MyGameViewModel = MyGameViewModel(CaveSceneViewModel())
 }

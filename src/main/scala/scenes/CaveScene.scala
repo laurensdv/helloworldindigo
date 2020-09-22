@@ -17,7 +17,9 @@ object CaveScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
     Lens(model => model.caveSceneModel,
       (model, sceneModel) => model.copy(caveSceneModel = sceneModel))
 
-  override def viewModelLens: Lens[MyGameViewModel, CaveSceneViewModel] = Lens.fixed()
+  override def viewModelLens: Lens[MyGameViewModel, CaveSceneViewModel] =
+    Lens(viewModel => viewModel.caveSceneViewModel,
+      (viewModel, sceneViewModel) => viewModel.copy(caveSceneViewModel = sceneViewModel))
 
   override def eventFilters: EventFilters = EventFilters.Default
 

@@ -7,7 +7,7 @@ import elements.{Coin, Dot, SmokeEffect}
 import indigo._
 import indigo.shared.scenegraph.SceneGraphNode
 
-case class MyGameViewModel() {
+case class MyGameViewModel(caveSceneViewModel: CaveSceneViewModel) {
 
   def bindAnimation(tag: String, key: String): Sprite = Sprite(
     BindingKey(tag), 0, 0, 1, AnimationKey(key)

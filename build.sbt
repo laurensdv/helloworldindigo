@@ -1,3 +1,5 @@
+
+
 ThisBuild / scalaVersion := "2.13.3"
 
 name := "mygame.indigo_demo"
@@ -31,8 +33,8 @@ lazy val mygame =
     )
 
 addCommandAlias("buildGame", ";compile;fastOptJS;indigoBuild")
-addCommandAlias("buildFullOptGame", ";compile;fullOptJS;indigoBuild")
 addCommandAlias("runGame", ";compile;fastOptJS;indigoRun")
-addCommandAlias("runFullOptGame", ";compile;fullOptJS;indigoRun")
+addCommandAlias("buildGameFull", ";compile;fullOptJS;indigoBuildFull")
+addCommandAlias("runGameFull", ";compile;fullOptJS;indigoRunFull")
 
 resolvers += Resolver.jcenterRepo

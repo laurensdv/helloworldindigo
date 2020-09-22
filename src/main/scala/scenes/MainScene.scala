@@ -33,7 +33,7 @@ object MainScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
 
     case KeyboardEvent.KeyUp(Keys.SPACE) =>
       Outcome(model)
-        .addGlobalEvents(SceneEvent.JumpTo(MainScene.name))
+        .addGlobalEvents(SceneEvent.JumpTo(CaveScene.name))
 
     case MouseEvent.Click(x, y) =>
       //val adjustedPosition = Point(x, y) - model.center

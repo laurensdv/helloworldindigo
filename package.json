@@ -2,7 +2,7 @@
   "dependencies": {
     "cordova": "^10.0.0",
     "cordova-android": "^9.0.0",
-    "cordova-browser": "^6.0.0",
+    "cordova-clean": "^1.3.5",
     "cordova-electron": "^1.1.1",
     "cordova-ios": "^6.1.1",
     "cordova-plugin-whitelist": "^1.3.4",
@@ -11,6 +11,11 @@
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {}
-    }
+    },
+    "platforms": []
+  },
+  "devDependencies": {
+    "cordova-browser": "^6.0.0",
+    "cordova-plugin-screensize": "^1.3.1"
   }
 }
