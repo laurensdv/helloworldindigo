@@ -1,6 +1,6 @@
 package elements
 
-import animation.{GravitySusceptible, Movable, MoveAbleProps}
+import animation.{DoublePoint, GravitySusceptible, Movable, MoveAbleProps}
 import collision.Collidable
 import config.MyGameConfig
 import indigo.{Dice, Point, Radians, Seconds}
@@ -62,35 +62,25 @@ case class Coin(tag: String, moveAbleProps: MoveAbleProps = MoveAbleProps(), run
   }
 
   override def gravity(timeDelta: Seconds): Coin = {
-    val oldPos: Point = this.pos - moveAbleProps.pivot
+    val oldPos: DoublePoint = this.doublePos
 
     if(pos.y < MyGameConfig.horizon) {
-      val newY: Double = Math.max(Math.min(MyGameConfig.horizon.toDouble - moveAbleProps.pivot.y.toDouble,
-                                  oldPos.y.toDouble + MyGameConfig.g * timeDelta.toDouble),
-                                  oldPos.y.toDouble + 1)
+      val newY: Double = Math.min(MyGameConfig.horizon.toDouble - moveAbleProps.pivot.y.toDouble,
+                                  oldPos.y + MyGameConfig.g * timeDelta.toDouble)
 
-      val newAngle: Radians = Conversions.pointToRadians(oldPos.x.toDouble, newY)
-
-      println(newY)
-      println(oldPos.y)
-      println(oldPos.x)
-      println(newAngle)
-      println(angle)
-      println(Conversions.originCoordinatesToDistance(oldPos.x.toDouble, newY))
-      println(Conversions.originCoordinatesToDistance(oldPos.x.toDouble, oldPos.y.toDouble))
-      println(distance)
+      val newAngle: Radians = Conversions.pointToRadians(oldPos.x, newY)
 
       this.copy(moveAbleProps = moveAbleProps.copy(
           angle = newAngle,
-          distance = Conversions.originCoordinatesToDistance(oldPos.x.toDouble, newY),
+          distance = Conversions.originCoordinatesToDistance(oldPos.x, newY),
           rotation = rotation + Radians(Math.PI * timeDelta.toDouble),
           prevPos = pos,
         )
       )
     } else {
       this.copy(moveAbleProps = moveAbleProps.copy(
-        angle = Conversions.pointToRadians(oldPos.x.toDouble, MyGameConfig.horizon.toDouble - moveAbleProps.pivot.y),
-        distance = Conversions.originCoordinatesToDistance(oldPos.x.toDouble, MyGameConfig.horizon.toDouble - moveAbleProps.pivot.y),
+        angle = Conversions.pointToRadians(oldPos.x, MyGameConfig.horizon.toDouble - moveAbleProps.pivot.y),
+        distance = Conversions.originCoordinatesToDistance(oldPos.x, MyGameConfig.horizon.toDouble - moveAbleProps.pivot.y),
         rotation = Radians(Math.PI/2),
         prevPos = pos
       )

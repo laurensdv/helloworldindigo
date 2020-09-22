@@ -7,14 +7,16 @@ trait Movable {
   val moveAbleProps: MoveAbleProps
   val runTime: Seconds = Seconds(0)
 
-  val pos: Point = Point((moveAbleProps.distance * Math.cos(moveAbleProps.angle.value)).toInt,
+  def pos: Point = Point((moveAbleProps.distance * Math.cos(moveAbleProps.angle.value)).toInt,
                          (moveAbleProps.distance * Math.sin(moveAbleProps.angle.value)).toInt) + moveAbleProps.pivot
 
-  val moved: Boolean = moveAbleProps.prevPos != pos
+  def doublePos: DoublePoint = DoublePoint(moveAbleProps.distance * Math.cos(moveAbleProps.angle.value),
+                                           moveAbleProps.distance * Math.sin(moveAbleProps.angle.value))
+  def moved: Boolean = moveAbleProps.prevPos != pos
 
-  val rotation: Radians = moveAbleProps.rotation
-  val angle: Radians = moveAbleProps.angle
-  val distance: Double = moveAbleProps.distance
+  def rotation: Radians = moveAbleProps.rotation
+  def angle: Radians = moveAbleProps.angle
+  def distance: Double = moveAbleProps.distance
 
   def push(vel: Double): Movable
   def accelerate(accel: Double): Movable
