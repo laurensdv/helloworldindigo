@@ -12,7 +12,8 @@ trait Movable {
 
   def doublePos: DoublePoint = DoublePoint(moveAbleProps.distance * Math.cos(moveAbleProps.angle.value),
                                            moveAbleProps.distance * Math.sin(moveAbleProps.angle.value))
-  def moved: Boolean = moveAbleProps.prevPos != pos
+
+  def moved: Boolean = moveAbleProps.prevPos.y != pos.y
 
   def rotation: Radians = moveAbleProps.rotation
   def angle: Radians = moveAbleProps.angle
