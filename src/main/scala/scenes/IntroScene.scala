@@ -7,6 +7,7 @@ import indigo.shared.events.{EventFilters, GlobalEvent}
 import indigo.shared.scenegraph.SceneUpdateFragment
 import indigo.shared.subsystems.SubSystem
 import indigo._
+import indigo.shared.constants.Key.SPACE
 import model.{IntroSceneModel, MyGameModel, MyGameViewModel}
 
 object IntroScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
@@ -26,7 +27,7 @@ object IntroScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
   override def subSystems: Set[SubSystem] = Set()
 
   override def updateModel(context: FrameContext[Unit], model: IntroSceneModel): GlobalEvent => Outcome[IntroSceneModel] = {
-    case KeyboardEvent.KeyUp(Keys.SPACE) =>
+    case KeyboardEvent.KeyUp(SPACE) =>
       Outcome(model)
         .addGlobalEvents(SceneEvent.JumpTo(MainScene.name))
 

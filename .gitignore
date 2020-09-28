@@ -19,3 +19,4 @@ src_managed
 .bloop
 *.iml
 .vscode
+out/

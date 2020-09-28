@@ -26,9 +26,9 @@ lazy val mygame =
       windowStartWidth := 412,
       windowStartHeight := 896,
       libraryDependencies ++= Seq(
-        "io.indigoengine" %%% "indigo-json-circe" % "0.3.0",
-        "io.indigoengine" %%% "indigo"            % "0.3.0",
-        "io.indigoengine" %%% "indigo-extras"     % "0.3.0"
+        "io.indigoengine" %%% "indigo-json-circe" % "0.3.1-SNAPSHOT",
+        "io.indigoengine" %%% "indigo"            % "0.3.1-SNAPSHOT",
+        "io.indigoengine" %%% "indigo-extras"     % "0.3.1-SNAPSHOT"
       )
     )
 

@@ -8,6 +8,7 @@ import elements.{Coin, SmokeEffect}
 import indigo._
 import indigo.scenes._
 import indigo.shared.FrameContext
+import indigo.shared.constants.Key.SPACE
 import indigo.shared.events.{EventFilters, GlobalEvent, MouseEvent}
 import indigo.shared.scenegraph.SceneUpdateFragment
 import indigo.shared.subsystems.SubSystem
@@ -31,7 +32,7 @@ object MainScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
 
   override def updateModel(context: FrameContext[Unit], model: MainSceneModel): GlobalEvent => Outcome[MainSceneModel] = {
 
-    case KeyboardEvent.KeyUp(Keys.SPACE) =>
+    case KeyboardEvent.KeyUp(SPACE) =>
       Outcome(model)
         .addGlobalEvents(SceneEvent.JumpTo(CaveScene.name))
 

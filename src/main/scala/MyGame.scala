@@ -41,7 +41,7 @@ object MyGame extends IndigoGame[Unit, Unit, MyGameModel, MyGameViewModel] {
 
   override def initialScene(bootData: Unit): Option[SceneName] = Option(IntroScene.name)
 
-  override def setup(bootData: Unit, assetCollection: AssetCollection, dice: Dice): Startup[StartupErrors, Unit] =
+  override def setup(bootData: Unit, assetCollection: AssetCollection, dice: Dice): Startup[Unit] =
     Startup.Success(())
 
   override def initialViewModel(startupData: Unit, model: MyGameModel): MyGameViewModel = MyGameViewModel(CaveSceneViewModel())
