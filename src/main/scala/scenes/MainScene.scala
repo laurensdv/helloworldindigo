@@ -14,7 +14,7 @@ import indigo.shared.scenegraph.SceneUpdateFragment
 import indigo.shared.subsystems.SubSystem
 import model.{MainSceneModel, MyGameModel, MyGameViewModel}
 
-object MainScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
+object MainScene extends Scene[Group, MyGameModel, MyGameViewModel] {
   override type SceneModel = MainSceneModel
   override type SceneViewModel = MyGameViewModel
 
@@ -30,7 +30,7 @@ object MainScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
 
   override def subSystems: Set[SubSystem] = Set()
 
-  override def updateModel(context: FrameContext[Unit], model: MainSceneModel): GlobalEvent => Outcome[MainSceneModel] = {
+  override def updateModel(context: FrameContext[Group], model: MainSceneModel): GlobalEvent => Outcome[MainSceneModel] = {
 
     case KeyboardEvent.KeyUp(SPACE) =>
       Outcome(model)
@@ -46,7 +46,7 @@ object MainScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
         }
       }
 
-      if (hits.length > 0) //accelerate coin if we hit something.
+      if (hits.nonEmpty) //accelerate coin if we hit something.
         Outcome(
           model.updateElements(
             model
@@ -71,8 +71,6 @@ object MainScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
         h <- hits
       } yield SmokeEffect("smoke_"+System.currentTimeMillis().hashCode(), Seconds(1), h.pos())
 
-      println("got hits: " + smokes.length)
-
       Outcome(model
         .updateElements(smokes)
         .update(context.delta)
@@ -82,9 +80,9 @@ object MainScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
       Outcome(model)
   }
 
-  override def updateViewModel(context: FrameContext[Unit], model: MainSceneModel, sceneViewModel: MyGameViewModel): GlobalEvent => Outcome[SceneViewModel] = _ => Outcome(sceneViewModel)
+  override def updateViewModel(context: FrameContext[Group], model: MainSceneModel, sceneViewModel: MyGameViewModel): GlobalEvent => Outcome[SceneViewModel] = _ => Outcome(sceneViewModel)
 
-  override def present(context: FrameContext[Unit], model: MainSceneModel, viewModel: MyGameViewModel): SceneUpdateFragment =
+  override def present(context: FrameContext[Group], model: MainSceneModel, viewModel: MyGameViewModel): SceneUpdateFragment =
     SceneUpdateFragment()
       .addGameLayerNodes(
         BehaviourRegistry.all(model.behaviours).map(viewModel.draw) // Behaviours

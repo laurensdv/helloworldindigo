@@ -12,6 +12,8 @@ object MyAssets {
   val coinsAssetName: AssetName = "coins"
   val destructibleObjectsName: AssetName = "destructibleObjects"
   val smokeEffectAssetName: AssetName = "smokeEffectAssetName"
+  val terrianData: AssetName  = AssetName("terrain-data")
+  val terrianImage: AssetName = AssetName("terrain-image")
 
   val fontKey: FontKey = "boxy font"
 
@@ -20,9 +22,10 @@ object MyAssets {
     AssetType.Image(dotsAssetName, "assets/dots.png"),
     AssetType.Image(destructibleObjectsName, "assets/destructible_objects.png"),
     AssetType.Image(coinsAssetName, "assets/coins/MonedaD.png"),
-    AssetType.Image(smokeEffectAssetName, "assets/fumacinha.png")
+    AssetType.Image(smokeEffectAssetName, "assets/fumacinha.png"),
+    AssetType.Text(terrianData, AssetPath("assets/terrain.json")),
+    AssetType.Image(terrianImage, AssetPath("assets/terrain.png"))
   )
-
   val animations: Set[Animation] = Set(
     Animation(
       AnimationKey(MyGameConfig.coinAnimsKey),

@@ -16,6 +16,7 @@ lazy val mygame =
         "com.lihaoyi"    %%% "utest"      % "0.7.4"  % "test",
         "org.scalacheck" %%% "scalacheck" % "1.14.3" % "test",
         "org.akka-js" %%% "akkajsactor" % "2.2.6.5",
+        "org.typelevel" %% "cats-core" % "2.0.0"
       ),
       testFrameworks += new TestFramework("utest.runner.Framework")
     )
@@ -26,9 +27,9 @@ lazy val mygame =
       windowStartWidth := 412,
       windowStartHeight := 896,
       libraryDependencies ++= Seq(
-        "io.indigoengine" %%% "indigo-json-circe" % "0.3.1-SNAPSHOT",
-        "io.indigoengine" %%% "indigo"            % "0.3.1-SNAPSHOT",
-        "io.indigoengine" %%% "indigo-extras"     % "0.3.1-SNAPSHOT"
+        "io.indigoengine" %%% "indigo-json-circe" % "0.4.1-SNAPSHOT",
+        "io.indigoengine" %%% "indigo"            % "0.4.1-SNAPSHOT",
+        "io.indigoengine" %%% "indigo-extras"     % "0.4.1-SNAPSHOT"
       )
     )
 
@@ -36,5 +37,6 @@ addCommandAlias("buildGame", ";compile;fastOptJS;indigoBuild")
 addCommandAlias("runGame", ";compile;fastOptJS;indigoRun")
 addCommandAlias("buildGameFull", ";compile;fullOptJS;indigoBuildFull")
 addCommandAlias("runGameFull", ";compile;fullOptJS;indigoRunFull")
+addCommandAlias("buildGameFullCordova", ";compile;fullOptJS;indigoBuildFull;indigoCordovaBuildFull")
 
 resolvers += Resolver.jcenterRepo

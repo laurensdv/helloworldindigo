@@ -1,3 +1,5 @@
+//import indigo.TiledMap
+//import indigo.json.Json
 import utest._
 
 object GameTests extends TestSuite {
@@ -9,6 +11,9 @@ object GameTests extends TestSuite {
         1 ==> 1
       }
 
+      "Test reading JSON from tiled map" - {
+
+      }
     }
 
 }

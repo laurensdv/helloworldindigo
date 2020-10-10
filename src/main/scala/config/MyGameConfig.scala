@@ -41,7 +41,6 @@ object MyGameConfig {
 
   val config: GameConfig =
     GameConfig.default
-      .withViewport(width, height)
       .withFrameRate(30)
       .withMagnification(magnification)
       .withAdvancedSettings(advancedGameConfig)

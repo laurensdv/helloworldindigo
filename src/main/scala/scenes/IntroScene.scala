@@ -10,7 +10,7 @@ import indigo._
 import indigo.shared.constants.Key.SPACE
 import model.{IntroSceneModel, MyGameModel, MyGameViewModel}
 
-object IntroScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
+object IntroScene extends Scene[Group, MyGameModel, MyGameViewModel] {
   override type SceneModel = IntroSceneModel
   override type SceneViewModel = Unit
 
@@ -26,15 +26,15 @@ object IntroScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
 
   override def subSystems: Set[SubSystem] = Set()
 
-  override def updateModel(context: FrameContext[Unit], model: IntroSceneModel): GlobalEvent => Outcome[IntroSceneModel] = {
+  override def updateModel(context: FrameContext[Group], model: IntroSceneModel): GlobalEvent => Outcome[IntroSceneModel] = {
     case KeyboardEvent.KeyUp(SPACE) =>
       Outcome(model)
         .addGlobalEvents(SceneEvent.JumpTo(MainScene.name))
 
-    case FrameTick if(model.runtime <= Seconds(MyGameConfig.introTimeSeconds.toDouble)) =>
+    case FrameTick if model.runtime <= Seconds(MyGameConfig.introTimeSeconds.toDouble) =>
         Outcome(model.update(context.delta))
 
-    case FrameTick if (model.runtime > Seconds(MyGameConfig.introTimeSeconds.toDouble)) =>
+    case FrameTick if model.runtime > Seconds(MyGameConfig.introTimeSeconds.toDouble) =>
       Outcome(model.reset())
           .addGlobalEvents(SceneEvent.JumpTo(MainScene.name))
 
@@ -42,9 +42,9 @@ object IntroScene extends Scene[Unit, MyGameModel, MyGameViewModel] {
   }
 
 
-  override def updateViewModel(context: FrameContext[Unit], model: IntroSceneModel, sceneViewModel: Unit): GlobalEvent => Outcome[Unit] = _ => Outcome(())
+  override def updateViewModel(context: FrameContext[Group], model: IntroSceneModel, sceneViewModel: Unit): GlobalEvent => Outcome[Unit] = _ => Outcome(())
 
-  override def present(context: FrameContext[Unit], model: IntroSceneModel, viewModel: Unit): SceneUpdateFragment =
+  override def present(context: FrameContext[Group], model: IntroSceneModel, viewModel: Unit): SceneUpdateFragment =
   {
     val horizontalCenter: Int = (MyGameConfig.config.viewport.width / MyGameConfig.config.magnification) / 2
     val verticalMiddle: Int   = (MyGameConfig.config.viewport.height / MyGameConfig.config.magnification) / 2
